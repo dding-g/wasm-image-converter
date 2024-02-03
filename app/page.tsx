@@ -1,5 +1,6 @@
 "use client";
 import { PngToWebpConverterButton } from "@/components/converter/converter";
+import { ConvertedImagesDownloaderButton } from "@/components/downloader/ConvertedImagesDownloaderButton";
 import { PreviewCard } from "@/components/preview/preview";
 import {
   Card,
@@ -14,6 +15,8 @@ import { useState } from "react";
 
 export default function Home() {
   const [files, setFiles] = useState<File[]>([]);
+  const [blobs, setBlobs] = useState<Blob[]>([]);
+  const [convedFiles, setConvedFiles] = useState<File[]>([]);
 
   const uploadFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -21,6 +24,16 @@ export default function Home() {
     if (files) {
       setFiles(Array.from(files));
     }
+  };
+
+  const addBlob = (blob: Blob) => {
+    setBlobs((prev) => [...prev, blob]);
+    setConvedFiles((prev) => [
+      ...prev,
+      new File([blob], `file${prev.length + 1}.webp`, {
+        type: "image/webp",
+      }),
+    ]);
   };
 
   return (
@@ -44,7 +57,9 @@ export default function Home() {
         </CardContent>
       </Card>
       <PreviewCard files={files} />
-      <PngToWebpConverterButton files={files} />
+      <PngToWebpConverterButton files={files} addBlob={addBlob} />
+      <PreviewCard files={convedFiles} />
+      <ConvertedImagesDownloaderButton blobs={blobs} />
     </main>
   );
 }
