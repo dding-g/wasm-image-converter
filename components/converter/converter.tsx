@@ -11,7 +11,7 @@ export const PngToWebpConverterButton = ({
   addBlob,
 }: {
   files: File[];
-  addBlob: (blob: Blob) => void;
+  addBlob: (blob: Blob, fileName: string) => void;
 }) => {
   const convertToWebP = async () => {
     const wasm = await fetch("/magick.wasm");
@@ -25,7 +25,8 @@ export const PngToWebpConverterButton = ({
         ImageMagick.read(new Uint8Array(arrayBuffer), (image) => {
           image.write(MagickFormat.Webp, (data) => {
             const blob = new Blob([data], { type: `image/webp` });
-            addBlob(blob);
+
+            addBlob(blob, file.name.split(".").slice(0, -1).join("."));
           });
         });
       })

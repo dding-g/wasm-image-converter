@@ -26,11 +26,11 @@ export default function Home() {
     }
   };
 
-  const addBlob = (blob: Blob) => {
+  const addBlob = (blob: Blob, fileName: string) => {
     setBlobs((prev) => [...prev, blob]);
     setConvedFiles((prev) => [
       ...prev,
-      new File([blob], `file${prev.length + 1}.webp`, {
+      new File([blob], `${fileName}.webp`, {
         type: "image/webp",
       }),
     ]);
