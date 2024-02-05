@@ -13,10 +13,12 @@ export const PreviewCard = ({ files }: PreviewCardProps) => (
         </div>
       )}
       {files.map((file, i) => (
-        <figure className="relative rounded-lg shadow-md overflow-hidden hover:scale-[1.05] transition-transform">
+        <figure
+          className="relative rounded-lg shadow-md overflow-hidden hover:scale-[1.05] transition-transform"
+          key={file.name + i}
+        >
           <Image
             className="object-cover max-w-[300px]"
-            key={file.name + i}
             src={URL.createObjectURL(file)}
             alt={""}
             width={300}
